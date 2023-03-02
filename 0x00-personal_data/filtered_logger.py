@@ -24,11 +24,9 @@ class RedactingFormatter(logging.Formatter):
     def format(self, record: logging.LogRecord) -> str:
         """Formats code based on the FORMAT
         """
-        x = super().format(record).split()
+        x = re.split(r'(?<=\))(?=\s)', super().format(record))
         msg = filter_datum(self.fields, self.REDACTION, x[5], self.SEPARATOR)
-        x.pop(5)
-        x = x + re.split(r'(?<=;)(?=\w+=)', msg)
-        return ' '.join(x)
+        return re.sub(r'(?<=\))(?=\s)', ';{}='.format(msg), x[0], count=1)
 
 
 def filter_datum(fields: list, redaction: str,
