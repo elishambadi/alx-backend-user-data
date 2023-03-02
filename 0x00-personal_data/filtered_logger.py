@@ -4,7 +4,7 @@
 import re
 
 
-def filter_datum(fields: list, redaction: str, message: str, separator: chr):
+def filter_datum(fields: list, redaction: str, message: str, separator: str) -> str:
     """This filters the log message using a RegEx
     """
     for i in range(len(fields)):
