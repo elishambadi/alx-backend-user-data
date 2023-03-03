@@ -63,7 +63,6 @@ def get_logger() -> logging.Logger:
 
     logger.addHandler(handler)  # add handler to logger
     logger.propagate = False
-    print(str(logger))
     return logger
 
 
@@ -105,8 +104,32 @@ def get_db() -> mysql.connector.connection.MySQLConnection:
 def main():
     """Main function
     """
-    conn = get_db()
-    cursor = conn.get_cursor()
+    db = get_db()
+    cursor = db.cursor()
 
-    rows = cursor.execute('SELECT * FROM users')
-    print(rows)
+    cursor.execute('SELECT * FROM users')
+
+    logger = get_logger()
+    for x in cursor:
+        x = list(x)
+        x[6] = str(x[6])
+
+        start = x[:4]
+        rem = x[4:]
+
+        _str = ';'.join(start) + ";"
+        _str = _str.replace(" ","")
+        x = _str.split(";")
+        x.pop()  # Issue: Stray whitespace after split is popped
+        x = x + rem
+        print(x)
+        # Make a string val
+        msg = "name={};email={};phone={};ssn={};password={};ip={};last_login={};user_agent={};".format(
+            x[0], x[1], x[2], x[3], x[4], x[5], x[6], x[7]
+        )
+        print(msg)
+        logger.info(msg)
+
+
+if __name__ == "__main__":
+    main()
