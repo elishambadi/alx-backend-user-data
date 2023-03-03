@@ -46,6 +46,7 @@ class RedactingFormatter(logging.Formatter):
 def filter_datum(fields: List[str], redaction: str,
                  message: str, separator: str) -> str:
     """This filters the log message using a RegEx"""
+    print("Filter Datum: {}".format(message))
     for field in fields:
         p = (rf'({re.escape(field)}=)'
              rf'[^{re.escape(separator)})]+'
@@ -122,12 +123,10 @@ def main():
         x = _str.split(";")
         x.pop()  # Issue: Stray whitespace after split is popped
         x = x + rem
-        print(x)
         # Make a string val
         msg = "name={};email={};phone={};ssn={};password={};ip={};last_login={};user_agent={};".format(
             x[0], x[1], x[2], x[3], x[4], x[5], x[6], x[7]
         )
-        print(msg)
         logger.info(msg)
 
 
