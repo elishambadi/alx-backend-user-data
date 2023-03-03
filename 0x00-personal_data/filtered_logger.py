@@ -5,8 +5,9 @@ A Log Filtering Module
 
 import re
 import logging
+import os as os
 from typing import List
-
+import mysql.connector
 
 with open("user_data.csv") as f:
     piis = f.readline()[:-1]  # remove newline char
@@ -64,3 +65,47 @@ def get_logger() -> logging.Logger:
     logger.propagate = False
     print(str(logger))
     return logger
+
+
+def get_db() -> mysql.connector.connection.MySQLConnection:
+    """ Connects to a DB using ENV variables"""
+
+    if os.getenv("PERSONAL_DATA_DB_USERNAME"):
+        DB_USER = os.getenv("PERSONAL_DATA_DB_USERNAME")
+    else:
+        DB_USER = "root"
+
+    if os.getenv("PERSONAL_DATA_DB_HOST"):
+        DB_HOST = os.getenv("PERSONAL_DATA_DB_HOST")
+    else:
+        DB_HOST = "localhost"
+
+    if os.getenv("PERSONAL_DATA_DB_HOST"):
+        DB_PASS = os.getenv("PERSONAL_DATA_DB_PASSWORD")
+    else:
+        DB_PASS = ""
+
+    DB_NAME = os.getenv("PERSONAL_DATA_DB_NAME")
+
+    # Create connection object
+    try:
+        conn = mysql.connector.connect(
+            host=DB_HOST,
+            user=DB_USER,
+            password=DB_PASS,
+            database=DB_NAME
+        )
+    except Exception as exc:
+        conn = ""
+        raise exc
+
+    return conn
+
+
+def main():
+    """Main function
+    """
+    conn = get_db()
+    cursor = conn.get_cursor()
+
+    cursor.execute('SELECT * FROM users')
