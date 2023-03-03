@@ -108,4 +108,5 @@ def main():
     conn = get_db()
     cursor = conn.get_cursor()
 
-    cursor.execute('SELECT * FROM users')
+    rows = cursor.execute('SELECT * FROM users')
+    print(rows)
