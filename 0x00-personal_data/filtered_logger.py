@@ -11,9 +11,11 @@ from typing import List
 with open("user_data.csv") as f:
     piis = f.readline()[:-1]  # remove newline char
 piis = piis.split(',')
-piis.pop(4)
+#  print(piis)
 piis.pop(5)
 piis.pop(5)
+piis.pop(5)
+#  print(piis)
 PII_FIELDS = tuple(piis)
 
 
