@@ -60,4 +60,3 @@ def get_logger() -> logging.Logger:
 
     logger.addHandler(handler)  # add handler to logger
     return logger
-
