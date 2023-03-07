@@ -58,3 +58,21 @@ class BasicAuth(Auth):
         else:
             """ Decode the string  """
             return tuple(decoded_base64_authorization_header.split(":"))
+
+    def user_object_from_credentials(
+            self,
+            user_email: str,
+            user_pwd: str
+            ) -> TypeVar('User'):
+        """Create a user object from the credentials
+        """
+        if type(user_email) != str:
+            return None
+        elif type(user_pwd) != str or user_pwd is None:
+            return None
+        elif len(User.search(user_email)) == 0:
+            return None
+        elif User.is_valid_password(user_pwd) is not True:
+            return None
+        else:
+            return User.search(user_email)
