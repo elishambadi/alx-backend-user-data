@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 """Basic Authentication Module
 """
 from flask import Flask, jsonify, abort, request
