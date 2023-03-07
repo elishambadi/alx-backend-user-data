@@ -4,6 +4,8 @@
 import base64
 import re
 from .auth import Auth
+from models.user import User
+from typing import TypeVar
 
 
 class BasicAuth(Auth):
@@ -70,9 +72,12 @@ class BasicAuth(Auth):
             return None
         elif type(user_pwd) != str or user_pwd is None:
             return None
-        elif len(User.search(user_email)) == 0:
-            return None
-        elif User.is_valid_password(user_pwd) is not True:
+        elif len(User.search({"email": user_email})) == 0:
             return None
         else:
-            return User.search(user_email)
+             user_ = User.search({"email": user_email})[0]
+
+        if user_.is_valid_password(user_pwd) is not True:
+            return None
+        else:
+            return user_
