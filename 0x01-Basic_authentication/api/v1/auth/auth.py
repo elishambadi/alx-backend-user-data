@@ -12,7 +12,12 @@ class Auth:
     """
 
     def require_auth(self, path: str, excluded_paths: List[str]) -> bool:
-        """Check if authentication is required
+        """Check if path is in paths paths excluded from auth.
+           Auth is only false if path is in list of excluded paths.
+
+           Returns:
+            - True auth required
+            - False auth not required
         """
         if path is None:
             return True
@@ -27,12 +32,13 @@ class Auth:
     def authorization_header(self, request=None) -> str:
         """Checks Auth header and return it
         """
+        headers = dict(request.headers)
         if request is None:
             return None
-        elif request.get("Authorization") is None:
+        elif headers.get("Authorization") is None:
             return None
         else:
-            return request.get("Authorization")
+            return headers.get("Authorization")
 
     def current_user(self, request=None) -> TypeVar('User'):
         """Gets current user
