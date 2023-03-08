@@ -19,13 +19,14 @@ class Auth:
             - True auth required
             - False auth not required
         """
+        # print("Excluded: {}".format(excluded_paths))
         if path is None:
+            return True
+        if excluded_paths is None or len(excluded_paths) == 0:
             return True
         if path in excluded_paths or path+"/" in excluded_paths:
             return False
         else:
-            return True
-        if excluded_paths is None or len(excluded_paths) == 0:
             return True
         return False
 
