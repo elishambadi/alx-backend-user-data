@@ -59,7 +59,11 @@ class BasicAuth(Auth):
             return (None, None)
         else:
             """ Decode the string  """
-            return tuple(decoded_base64_authorization_header.split(":"))
+            match = re.search(r':(.+)$', decoded_base64_authorization_header)
+            email = decoded_base64_authorization_header.split(':')[0]
+            if match:
+                pass_ = match.group(0)[1:]
+            return (email, pass_)
 
     def user_object_from_credentials(
             self,
