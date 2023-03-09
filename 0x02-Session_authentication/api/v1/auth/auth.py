@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Basic Authentication Module
 """
+import os
 from flask import Flask, jsonify, abort, request
 from typing import List, TypeVar
 
@@ -51,3 +52,11 @@ class Auth:
         """Gets current user
         """
         return None
+
+    def session_cookie(self, request=None):
+        """Returns a cookie value
+        """
+        if request is None:
+            return None
+        else:
+            return request.cookies.get(os.getenv("SESSION_NAME"))
