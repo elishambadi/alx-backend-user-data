@@ -39,10 +39,11 @@ class Auth:
     def authorization_header(self, request=None) -> str:
         """Checks Auth header and return it
         """
-        headers = dict(request.headers)
+
         if request is None:
             return None
-        elif headers.get("Authorization") is None:
+        headers = dict(request.headers)
+        if headers.get("Authorization") is None:
             return None
         else:
             return headers.get("Authorization")
