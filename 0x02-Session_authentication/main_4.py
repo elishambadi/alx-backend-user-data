@@ -17,8 +17,9 @@ user.save()
 """ Create a session ID """
 sa = SessionAuth()
 session_id = sa.create_session(user.id)
-print("User with ID: {} has a Session ID: {}".format(user.id, session_id))
+print("User with ID: {} pass {} has a Session ID: {}".format(user.id, user.password, session_id))
 
+print("Valid pass? {}".format(user.is_valid_password(user_clear_pwd)))
 """ Create a Flask app """
 app = Flask(__name__)
 

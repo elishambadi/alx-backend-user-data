@@ -6,6 +6,7 @@ from os import getenv
 from api.v1.views import app_views
 from flask import Flask, jsonify, abort, request
 from flask_cors import (CORS, cross_origin)
+from models.user import User
 import os
 
 
@@ -74,4 +75,13 @@ def forbidden(erro) -> str:
 if __name__ == "__main__":
     host = getenv("API_HOST", "0.0.0.0")
     port = getenv("API_PORT", "5000")
+    user_email = "bobsession@hbtn.io"
+    user_clear_pwd = "fake pwd"
+
+    user = User()
+    user.email = user_email
+    user.password = user_clear_pwd
+    user.save()
+    print("User created: {}".format(user.to_json()))
+
     app.run(host=host, port=port, debug=True)
