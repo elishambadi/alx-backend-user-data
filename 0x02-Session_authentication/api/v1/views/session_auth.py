@@ -37,3 +37,15 @@ def auth_login():
         resp = make_response(user_.to_json())
         resp.set_cookie(os.getenv("SESSION_NAME"), session_id)
         return resp
+
+@app_views.route("/api/v1/auth_session/logout", methods=['DELETE'], strict_slashes=False)
+def auth_logout():
+    """Logs out by deleting session variable
+    """
+    from api.v1.app import Auth
+    destroy = auth.destroy_session(request)
+    if destroy is False:
+        abort(404)
+        return False
+    else:
+        return {}, 200
