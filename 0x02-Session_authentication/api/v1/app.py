@@ -41,12 +41,11 @@ def auth_before():
         pass
     else:
         if auth.require_auth(request.path, urls) is True:
-            if auth.authorization_header(request) is None:
+            if auth.authorization_header(request) is None and auth.session_cookie(request) is None:
+                print("--- auth.authorization_header(request)")
                 abort(401)
             if auth.current_user(request) is None:
                 abort(403)
-            if auth.current_user(request) is None and auth.session_cookie(request) is None:
-                abort(401)
             else:
                 request.current_user = auth.current_user(request)
 
