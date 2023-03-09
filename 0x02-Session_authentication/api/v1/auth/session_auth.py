@@ -4,6 +4,11 @@
 import uuid
 import os
 from .auth import Auth
+import sys
+from models.user import User
+
+sys.path.append("""/home/elisha/Documents/ALX/alx-backend-user-data/
+                 0x02-Session_authentication/""")
 
 
 class SessionAuth(Auth):
@@ -32,3 +37,11 @@ class SessionAuth(Auth):
             return None
         else:
             return self.user_id_by_session_id.get(session_id)
+
+    def current_user(self, request=None):
+        """Returns a user instance
+        """
+        cookie_val = self.session_cookie(request)
+        user_id = self.user_id_for_session_id(cookie_val)
+        print("Cookie val: {}, user_id: {}".format(cookie_val, user_id))
+        return User.get(user_id)
