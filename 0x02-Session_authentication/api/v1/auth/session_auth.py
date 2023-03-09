@@ -5,7 +5,10 @@ import uuid
 import os
 from .auth import Auth
 import sys
+from flask import Flask
 from models.user import User
+
+app = Flask(__name__)
 
 sys.path.append("""/home/elisha/Documents/ALX/alx-backend-user-data/
                  0x02-Session_authentication/""")
@@ -57,3 +60,7 @@ class SessionAuth(Auth):
             return False
         else:
             del self.user_id_by_session_id[self.session_cookie(request)]
+
+
+if __name__ == "__main__":
+    app.run(debug=True)
