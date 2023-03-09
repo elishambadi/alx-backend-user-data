@@ -51,7 +51,9 @@ class SessionAuth(Auth):
             return False
         elif self.session_cookie(request) is None:
             return False
-        elif len(User.search(self.user_id_for_session_id(self.session_cookie(request)))) == 0:
+        elif len(User.search(
+                 self.user_id_for_session_id(
+                     self.session_cookie(request)))) == 0:
             return False
         else:
             del self.user_id_by_session_id[self.session_cookie(request)]
