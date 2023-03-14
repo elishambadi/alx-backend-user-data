@@ -30,10 +30,15 @@ class DB:
             self.__session = DBSession()
         return self.__session
 
-    def add_user(self, email: str, hashed_password: str):
+    def add_user(self, email: str, hashed_password: str) -> User:
         """Adds a new user to DB
         """
         new_user = User(email=email, hashed_password=hashed_password)
         self._session.add(new_user)
         self._session.commit()
         return new_user
+
+    def find_user_by(**kwargs) -> User:
+        """Returns first item found in user table
+        """
+        found =
