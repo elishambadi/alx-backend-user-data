@@ -19,5 +19,5 @@ class User(Base):
     reset_token = Column(String(250), nullable=True)
 
     def __repr__(self):
-        return "<User (name='{}', fullname='{}')>".format(self.name,
-                                                          self.fullname)
+        return "<User (email='{}', id='{}')>".format(self.email,
+                                                          self.id)

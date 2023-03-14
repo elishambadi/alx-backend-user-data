@@ -1,13 +1,16 @@
 #!/usr/bin/env python3
 """DB module
 """
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, text
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
+from sqlalchemy.orm.exc import NoResultFound
+from sqlalchemy.exc import InvalidRequestError
 
 from user import Base
 from user import User
+
 
 class DB:
     """DB class
@@ -16,7 +19,7 @@ class DB:
     def __init__(self) -> None:
         """Initialize a new DB instance
         """
-        self._engine = create_engine("sqlite:///a.db", echo=True)
+        self._engine = create_engine("sqlite:///a.db")
         Base.metadata.drop_all(self._engine)
         Base.metadata.create_all(self._engine)
         self.__session = None
@@ -38,7 +41,21 @@ class DB:
         self._session.commit()
         return new_user
 
-    def find_user_by(**kwargs) -> User:
+    def find_user_by(self, **kwargs) -> User:
         """Returns first item found in user table
         """
-        found =
+        query_str = ""
+
+        for k, v in kwargs.items():
+            if len(query_str) == 0:
+                query_str = "{}='{}'".format(k, v)
+            else:
+                query_str = ' and '.join([query_str, "{}={}".format(k, v)])
+
+        try:
+            found = self.__session.query(User).filter(text(query_str)).first()
+        except Exception as exc:
+            raise InvalidRequestError
+        if found is None:
+            raise NoResultFound
+        return found
