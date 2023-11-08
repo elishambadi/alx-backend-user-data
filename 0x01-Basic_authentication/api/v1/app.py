@@ -17,9 +17,14 @@ auth = None
 if os.getenv('AUTH_TYPE'):
     auth = os.getenv('AUTH_TYPE')
 
-if auth:
-    from api.v1.auth.auth import Auth
-    auth = Auth()
+# Checking which auth type is in use
+match str(auth):
+    case "auth":
+        from api.v1.auth.auth import Auth
+        auth = Auth()
+    case "basic_auth":
+        from api.v1.auth.basic_auth import BasicAuth
+        auth = BasicAuth()
 
 
 @app.errorhandler(404)
@@ -52,7 +57,11 @@ def before_request():
         Returns:
         - Abort if request is not authorized/authenticated
     """
-    excluded_paths = ['/api/v1/status/', '/api/v1/unauthorized/', '/api/v1/forbidden/']
+    excluded_paths = [
+        '/api/v1/status/',
+        '/api/v1/unauthorized/',
+        '/api/v1/forbidden/'
+        ]
     if auth is None:
         pass
 
