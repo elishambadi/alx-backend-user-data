@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
-"""
-Route module for the API
-"""
+"""Route module for the API."""
+
 from os import getenv
 from api.v1.views import app_views
 from flask import Flask, jsonify, abort, request
@@ -17,9 +16,9 @@ auth = None
 if os.getenv('AUTH_TYPE'):
     auth = os.getenv('AUTH_TYPE')
 
-# Checking which auth type is in use
 match str(auth):
     case "auth":
+        """Aut"""
         from api.v1.auth.auth import Auth
         auth = Auth()
     case "basic_auth":
@@ -29,23 +28,21 @@ match str(auth):
 
 @app.errorhandler(404)
 def not_found(error) -> str:
-    """ Not found handler
-    """
+    """ Not found handler. """
+
     return jsonify({"error": "Not found"}), 404
 
 
 @app.errorhandler(401)
 def unauthorized(error) -> str:
-    """ Unauthorized handler
-    """
+    """ Unauthorized handler. """
 
     return jsonify({"error": "Unauthorized"}), 401
 
 
 @app.errorhandler(403)
 def forbidden(error) -> str:
-    """ Forbidden handler
-    """
+    """ Forbidden handler. """
 
     return jsonify({"error": "Forbidden"}), 403
 
