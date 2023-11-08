@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 """
     Auth Module
 """
@@ -14,8 +14,8 @@ class Auth:
 
         if path is None:
             return True
-        elif excluded_paths is None:
-            return False
+        elif excluded_paths is None or excluded_paths == []:
+            return True
 
         # Appending a slash to each path
         if path.endswith('/'):
@@ -27,7 +27,6 @@ class Auth:
             return True
         elif path in excluded_paths:
             return False
-        return False
 
     def authorization_header(self, request=None) -> str:
         """Checks Authorization headers"""
