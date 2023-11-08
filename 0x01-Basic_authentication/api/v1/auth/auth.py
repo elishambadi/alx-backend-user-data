@@ -32,10 +32,10 @@ class Auth:
         """Checks Authorization headers"""
         if request is None:
             return None
-        elif request.headers["Authorization"] is None:
+        elif request.headers.get("Authorization") is None:
             return None
         else:
-            return request.headers["Authorization"]
+            return request.headers.get("Authorization")
 
     def current_user(self, request=None) -> TypeVar('User'):
         """returns the current authorized user"""
