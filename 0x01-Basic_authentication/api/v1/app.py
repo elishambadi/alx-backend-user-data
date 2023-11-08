@@ -57,7 +57,7 @@ def before_request():
         - Abort if request is not authorized/authenticated
     """
     excluded_paths = [
-        '/api/v1/status/',
+        '/api/v1/stat*',
         '/api/v1/unauthorized/',
         '/api/v1/forbidden/'
         ]

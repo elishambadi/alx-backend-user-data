@@ -23,6 +23,13 @@ class Auth:
         else:
             path = path+"/"
 
+        # Checking wildcard paths
+        for exc_path in excluded_paths:
+
+            if exc_path.endswith("*"):
+                if exc_path[:-1] in path:
+                    return False
+
         if path not in excluded_paths:
             return True
         elif path in excluded_paths:
