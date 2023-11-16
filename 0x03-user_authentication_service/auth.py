@@ -9,7 +9,7 @@ from user import User
 
 def _hash_password(password: str) -> bytes:
     """Hashes a password using bcrypt and returns bytes"""
-    bytes = password.encode('utf-8')
+    bytes = password.encode()
     salt = bcrypt.gensalt()
 
     return bcrypt.hashpw(bytes, salt)
@@ -44,26 +44,22 @@ class Auth:
         else:
             # Create a new user
             hashed_pw = _hash_password(password)
-
             user = self._db.add_user(email, hashed_pw)
             return user
 
     def valid_login(self, email: str, password: str) -> bool:
         """Logs in a user"""
-        if email is None:
-            return None
-        if password is None:
-            return None
+        if not email or not password:
+            return False
 
+        print(f"Email: {email} - Password: {password}")
         try:
             user = self._db.find_user_by(email=email)
         except Exception as exc:
             return False
 
-        bytes = password.encode('utf-8')
-
         #  Check user password using bcrypt
-        if bcrypt.checkpw(bytes, user.hashed_password):
+        if bcrypt.checkpw(password.encode(), user.hashed_password):
             return True
         else:
             return False
