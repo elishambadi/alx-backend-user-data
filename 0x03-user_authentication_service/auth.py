@@ -86,3 +86,29 @@ class Auth:
         except Exception as exc:
             #  Incase of error return None
             return None
+
+    def get_user_from_session_id(self, session_id: str) -> User or None:
+        """Returns a user from a session_id"""
+        if not session_id:
+            return None
+
+        try:
+            user = self._db.find_user_by(session_id=session_id)
+        except Exception as exc:
+            #  Incase of error return None
+            return None
+
+        return user
+
+    def destroy_session(self, user_id: int) -> None:
+        """Destroys a user session"""
+        if not user_id:
+            return None
+
+        try:
+            user = self._db.find_user_by(id=user_id)
+            self._db.update_user(session_id=None)  # Update session_id to None
+
+        except Exception as exc:
+            #  Incase of error return None
+            return None
