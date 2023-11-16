@@ -52,7 +52,6 @@ class Auth:
         if not email or not password:
             return False
 
-        print(f"Email: {email} - Password: {password}")
         try:
             user = self._db.find_user_by(email=email)
         except Exception as exc:
