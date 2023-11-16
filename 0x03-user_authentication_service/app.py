@@ -65,7 +65,7 @@ def login():
 def logout():
     """Logs Out a User"""
     session_id = request.cookies.get("session_id")
-    print(request.cookies)
+
     if session_id is None:
         print("No session ID")
         return None
