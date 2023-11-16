@@ -107,7 +107,7 @@ class Auth:
 
         try:
             user = self._db.find_user_by(id=user_id)
-            self._db.update_user(user.id, session_id=None)  # Update session_id to None
+            self._db.update_user(user.id, session_id=None)
 
         except Exception as exc:
             #  Incase of error return None
