@@ -48,16 +48,13 @@ def login():
     if valid_login:
         session_id = AUTH.create_session(email)
 
-        # #  Make response and set a cookie
-        # resp = make_response()
-        # resp.set_cookie("session_id", session_id)
-
         response = jsonify({"email": f"{email}", "message": "logged in"})
         response.set_cookie("session_id", session_id)
 
         return response
     else:
         abort(401)
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port="5000", debug=True)
