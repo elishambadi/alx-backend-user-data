@@ -28,7 +28,7 @@ def users():
         return jsonify({
             "email": f"{user.email}",
             "message": "user created"
-            }), 201
+            }), 200
     except Exception as exc:
         return jsonify({"message": "email already registered"}), 400
 
